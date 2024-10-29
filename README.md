@@ -1,3 +1,28 @@
+# The Wild Oasis CMS
+
+a web app for hotel to manage booking details
+
+## Tech Stack
+
+**Core:** React
+
+**Routing:** React Router
+
+**Styling:** styled components
+
+**Remote state managemant:** React Query
+
+**UI state management:** Context API
+
+**Form management:** React hook form
+
+**Backend API:** Superbase
+
+## Features
+
+- Light/dark mode toggle
+- Cross platform
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -22,7 +47,7 @@ export default tseslint.config({
       tsconfigRootDir: import.meta.dirname,
     },
   },
-})
+});
 ```
 
 - Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
@@ -31,7 +56,7 @@ export default tseslint.config({
 
 ```js
 // eslint.config.js
-import react from 'eslint-plugin-react'
+import react from 'eslint-plugin-react';
 
 export default tseslint.config({
   // Set the react version
@@ -46,5 +71,5 @@ export default tseslint.config({
     ...react.configs.recommended.rules,
     ...react.configs['jsx-runtime'].rules,
   },
-})
+});
 ```
