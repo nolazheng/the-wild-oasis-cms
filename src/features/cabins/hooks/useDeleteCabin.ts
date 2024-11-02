@@ -1,5 +1,6 @@
 import { deleteCabin as deleteSupabaseCabin } from '@/services/apiCabins';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 
 export const useDeleteCabin = () => {
   const queryClient = useQueryClient();
@@ -9,6 +10,11 @@ export const useDeleteCabin = () => {
       queryClient.invalidateQueries({
         queryKey: ['cabins'],
       });
+
+      toast.success('Delete Successfully !');
+    },
+    onError: (err: Error) => {
+      toast.error(err.message);
     },
   });
 
