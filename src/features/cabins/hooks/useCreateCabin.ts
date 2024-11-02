@@ -1,13 +1,13 @@
-import { deleteCabin as deleteSupabaseCabin } from '@/services/apiCabins';
+import { createEditCabin } from '@/services/apiCabins';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 
-export const useDeleteCabin = () => {
+export const useCreateCabin = () => {
   const queryClient = useQueryClient();
-  const { mutate: deleteCabin, isPending: isDeleting } = useMutation({
-    mutationFn: deleteSupabaseCabin,
+  const { mutate: createCabin, isPending: isCreating } = useMutation({
+    mutationFn: createEditCabin,
     onSuccess: () => {
-      toast.success('Delete Successfully !');
+      toast.success(`Created Successfully`);
 
       queryClient.invalidateQueries({
         queryKey: ['cabins'],
@@ -17,6 +17,8 @@ export const useDeleteCabin = () => {
       toast.error(err.message);
     },
   });
-
-  return { deleteCabin, isDeleting };
+  return {
+    createCabin,
+    isCreating,
+  };
 };

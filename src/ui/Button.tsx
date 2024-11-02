@@ -50,14 +50,14 @@ const variations = {
 
 const Button = styled.button<{
   size?: keyof typeof sizes;
-  variation?: keyof typeof variations;
+  $variation?: keyof typeof variations;
 }>`
   border: none;
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-sm);
 
   ${({ size = 'medium' }) => sizes[size]}
-  ${({ variation = 'primary' }) => variations[variation]}
+  ${({ $variation = 'primary' }) => variations[$variation]}
 `;
 
 export default Button;
