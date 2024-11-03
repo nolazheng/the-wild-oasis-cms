@@ -16,7 +16,7 @@ a web app for hotel to manage booking details
 
 **Form management:** React hook form
 
-**Backend API:** Superbase
+**Backend API/Database:** Superbase
 
 ## Features
 
