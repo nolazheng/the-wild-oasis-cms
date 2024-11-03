@@ -24,7 +24,6 @@ function CreateCabinForm({
   const isWorking = isCreating || isEditing;
 
   // For an editing session
-
   const isEditSession = cabinToEdit && cabinToEdit.id;
 
   const { register, handleSubmit, formState, reset, getValues } = useForm({
@@ -35,17 +34,19 @@ function CreateCabinForm({
   const onSubmit = function (data: CreateCabinType) {
     const options = {
       onSuccess: () => {
-        // If this component is used OUTSIDE the Modal Context, this will return undefined, so we need to test for this
-        // closeModal?.();
+        closeModal?.();
         reset();
       },
     };
     const image = typeof data.image === 'object' ? data.image[0] : data.image;
     if (isEditSession)
-      editCabin({
-        newCabin: { ...data, image },
-        id: cabinToEdit.id,
-      });
+      editCabin(
+        {
+          newCabin: { ...data, image },
+          id: cabinToEdit.id,
+        },
+        options
+      );
     else createCabin({ ...data, image }, options);
   };
 
