@@ -1,8 +1,8 @@
 import styled, { css } from 'styled-components';
 
-const Form = styled.form<{ type?: string }>`
+const Form = styled.form<{ type?: 'regular' | 'modal' }>`
   ${(props) =>
-    props.type !== 'modal' &&
+    props.type === 'regular' &&
     css`
       padding: 2.4rem 4rem;
 
@@ -21,5 +21,7 @@ const Form = styled.form<{ type?: string }>`
   overflow: hidden;
   font-size: 1.4rem;
 `;
+
+Form.defaultProps = { type: 'regular' };
 
 export default Form;

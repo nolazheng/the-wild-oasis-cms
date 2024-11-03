@@ -1,5 +1,11 @@
 import { useCloseOutside } from '@/hooks/useCloseOutside';
-import { cloneElement, createContext, useContext, useState } from 'react';
+import {
+  cloneElement,
+  createContext,
+  useContext,
+  useRef,
+  useState,
+} from 'react';
 import { createPortal } from 'react-dom';
 import { HiXMark } from 'react-icons/hi2';
 import styled from 'styled-components';
@@ -67,7 +73,7 @@ const Modal = ({ children }: { children: React.ReactNode }) => {
   const [openName, setOpenName] = useState('');
 
   const close = () => setOpenName('');
-  const open = (openName: string) => setOpenName(openName);
+  const open = setOpenName;
 
   return (
     <ModalContext.Provider value={{ openName, close, open }}>
@@ -96,8 +102,9 @@ const Window = ({
   name: string;
 }) => {
   const { openName, close } = useContext(ModalContext);
+  const ref = useRef(null);
 
-  const { ref } = useCloseOutside(close);
+  useCloseOutside(ref, close);
 
   if (openName !== name) return null;
   return createPortal(

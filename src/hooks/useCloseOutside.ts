@@ -1,8 +1,10 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
-export const useCloseOutside = (handler: () => void, capturing = true) => {
-  const ref = useRef<HTMLDivElement | null>(null);
-
+export const useCloseOutside = (
+  ref: React.MutableRefObject<HTMLDivElement | null>,
+  handler: () => void,
+  capturing = true
+) => {
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -12,7 +14,7 @@ export const useCloseOutside = (handler: () => void, capturing = true) => {
     document.addEventListener('click', handleClickOutside, capturing);
     return () =>
       document.removeEventListener('click', handleClickOutside, capturing);
-  }, [handler, capturing]);
+  }, [ref, handler, capturing]);
 
   return { ref };
 };
