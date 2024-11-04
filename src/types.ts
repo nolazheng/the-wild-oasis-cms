@@ -12,6 +12,20 @@ export interface CabinType extends CreateCabinType {
   id: string;
 }
 
+export type CabinFilterType = 'all' | 'no-discount' | 'with-discount';
+export type CabinSortType =
+  | 'name-asc'
+  | 'name-desc'
+  | 'regularPrice-asc'
+  | 'regularPrice-desc'
+  | 'maxCapacity-asc'
+  | 'maxCapacity-desc';
+
+export enum SearchParamsEnum {
+  discount = 'discount',
+  sortBy = 'sort-by',
+}
+
 export type SettingsType = {
   minBookingLength: number;
   maxBookingLength: number;

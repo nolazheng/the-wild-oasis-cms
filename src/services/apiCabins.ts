@@ -9,10 +9,8 @@ export const getCabins = async (): Promise<CabinType[]> => {
   const { data, error } = await supabase.from('cabins').select('*');
 
   if (error) {
-    console.error('🚀 ~ getCabins ~ error:', error);
     throw new Error(error.message);
   }
-  console.log('🚀 ~ getCabins ~ data:', camelcaseKeys(data));
   return camelcaseKeys(data);
 };
 
@@ -37,7 +35,6 @@ export const createEditCabin = async (
       .single();
 
     if (error) {
-      console.error('🚀 ~ createCabin ~ error:', error);
       throw new Error(error.message);
     }
 
@@ -51,7 +48,6 @@ export const createEditCabin = async (
       .select();
 
     if (editError) {
-      console.error('🚀 ~ editCabin ~ error:', editError);
       throw new Error(editError.message);
     }
 
@@ -68,8 +64,6 @@ export const createEditCabin = async (
       });
 
     if (storageError) {
-      console.log('🚀 ~ storageError:', storageError);
-
       deleteCabin(currentData.id);
 
       throw new Error(storageError.message);
@@ -83,20 +77,17 @@ export const deleteCabin = async (cabin: CabinType): Promise<void> => {
   const { error } = await supabase.from('cabins').delete().eq('id', cabin.id);
 
   if (error) {
-    console.error('🚀 ~ deleteCabin ~ error:', error);
     throw new Error(error.message);
   }
 
   // Remove Image
   const imagePath = `${supabaseUrl}/storage/v1/object/public/${imageBucket}/`;
   const imageName = cabin.image.replace(imagePath, '');
-  console.log('🚀 ~ deleteCabin ~ imageName:', imageName);
   const { error: removeImageError } = await supabase.storage
     .from(imageBucket)
     .remove([imageName]);
 
   if (removeImageError) {
-    console.error('🚀 ~ Remove Image ~ error:', error);
     throw new Error(removeImageError.message);
   }
 };
