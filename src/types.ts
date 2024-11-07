@@ -24,6 +24,7 @@ export type CabinSortType =
 export enum SearchParamsEnum {
   discount = 'discount',
   sortBy = 'sort-by',
+  status = 'status',
 }
 
 export type SettingsType = {
@@ -31,4 +32,31 @@ export type SettingsType = {
   maxBookingLength: number;
   maxGuestsPerBooking: number;
   breakfastPrice: number;
+};
+
+export type BookingStatusType = 'unconfirmed' | 'checked-in' | 'checked-out';
+export type BookingStatusFilterType = BookingStatusType | 'all';
+export type BookingSortType =
+  | 'startDate-desc'
+  | 'startDate-asc'
+  | 'totalPrice-desc'
+  | 'totalPrice-asc';
+
+export type BookingType = {
+  id: string;
+  createdAt: string;
+  startDate: string;
+  endDate: string;
+  numNights: number;
+  numGuests: number;
+  totalPrice: number;
+  status: BookingStatusType;
+  guests: { fullName: string; email: string };
+  cabins: { name: string };
+};
+
+export const statusToTagName: Record<BookingStatusType, string> = {
+  unconfirmed: 'blue',
+  'checked-in': 'green',
+  'checked-out': 'silver',
 };

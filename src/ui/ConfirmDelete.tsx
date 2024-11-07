@@ -22,7 +22,7 @@ const StyledConfirmDelete = styled.div`
 
 type Props = {
   resource: string;
-  onConfirm?: () => void;
+  onConfirm?: (params?: any) => void;
   disabled: boolean;
   // from Modal context
   closeModal?: () => void;
