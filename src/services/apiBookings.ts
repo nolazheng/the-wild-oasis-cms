@@ -1,13 +1,36 @@
+import { SearchParamsEnum } from '@/types';
 import { getToday } from '../utils/helpers';
 import supabase from './supabase';
 import camelcaseKeys from 'camelcase-keys';
 
-export async function getBookings() {
-  const { data, error } = await supabase
+export async function getBookings({
+  filter,
+  sortBy,
+}: {
+  filter: {
+    field: SearchParamsEnum;
+    value: string;
+    method?: 'eq' | 'gte';
+  } | null;
+  sortBy: { field: string; direction: string };
+}) {
+  let query = supabase
     .from('bookings')
     .select('*, cabins(name), guests(full_name,email)');
-  // .eq('id', id);
-  // .single();
+
+  // Filter
+  if (filter) {
+    query = query[filter.method || 'eq'](filter.field, filter.value);
+  }
+
+  // Sort
+  if (sortBy.field && sortBy.direction) {
+    query = query.order(sortBy.field, {
+      ascending: sortBy.direction === 'asc',
+    });
+  }
+
+  const { data, error } = await query;
 
   if (error) {
     console.error(error);

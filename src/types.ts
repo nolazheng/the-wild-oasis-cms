@@ -37,10 +37,10 @@ export type SettingsType = {
 export type BookingStatusType = 'unconfirmed' | 'checked-in' | 'checked-out';
 export type BookingStatusFilterType = BookingStatusType | 'all';
 export type BookingSortType =
-  | 'startDate-desc'
-  | 'startDate-asc'
-  | 'totalPrice-desc'
-  | 'totalPrice-asc';
+  | 'start_date-desc'
+  | 'start_date-asc'
+  | 'total_price-desc'
+  | 'total_price-asc';
 
 export type BookingType = {
   id: string;
