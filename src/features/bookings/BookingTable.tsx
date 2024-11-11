@@ -1,18 +1,16 @@
-// import styled from 'styled-components';
 import BookingRow from '@/features/bookings/BookingRow';
 import Spinner from '@/ui/Spinner';
 import Table from '@/ui/Table';
-// import { useBookings } from '@/features/bookings/useBookings';
 import Menus from '@/ui/Menus';
-// import Pagination from '@/ui/Pagination';
+import Pagination from '@/ui/Pagination';
 import Empty from '@/ui/Empty';
 import { useGetBookings } from './hooks/useGetBookings';
 
 function BookingTable() {
-  const { bookings, isLoading } = useGetBookings();
+  const { bookings, count, isLoading } = useGetBookings();
 
   if (isLoading) return <Spinner />;
-  if (!bookings?.length) return <Empty resourceName="bookings" />;
+  if (!bookings?.length || !count) return <Empty resourceName="bookings" />;
 
   return (
     <Menus>
@@ -33,9 +31,9 @@ function BookingTable() {
           )}
         />
 
-        {/* <Table.Footer>
+        <Table.Footer>
           <Pagination count={count} />
-        </Table.Footer> */}
+        </Table.Footer>
       </Table>
     </Menus>
   );

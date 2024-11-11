@@ -25,6 +25,7 @@ export enum SearchParamsEnum {
   discount = 'discount',
   sortBy = 'sort-by',
   status = 'status',
+  page = 'page',
 }
 
 export type SettingsType = {
@@ -34,6 +35,7 @@ export type SettingsType = {
   breakfastPrice: number;
 };
 
+export const BOOKING_PAGE_SIZE = 10;
 export type BookingStatusType = 'unconfirmed' | 'checked-in' | 'checked-out';
 export type BookingStatusFilterType = BookingStatusType | 'all';
 export type BookingSortType =

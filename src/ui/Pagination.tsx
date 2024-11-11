@@ -1,3 +1,6 @@
+import { BOOKING_PAGE_SIZE, SearchParamsEnum } from '@/types';
+import { HiChevronLeft, HiChevronRight } from 'react-icons/hi2';
+import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledPagination = styled.div`
@@ -21,10 +24,10 @@ const Buttons = styled.div`
   gap: 0.6rem;
 `;
 
-const PaginationButton = styled.button<{ active: boolean }>`
+const PaginationButton = styled.button<{ $active: boolean }>`
   background-color: ${(props) =>
-    props.active ? ' var(--color-brand-600)' : 'var(--color-grey-50)'};
-  color: ${(props) => (props.active ? ' var(--color-brand-50)' : 'inherit')};
+    props.$active ? ' var(--color-brand-600)' : 'var(--color-grey-50)'};
+  color: ${(props) => (props.$active ? ' var(--color-brand-50)' : 'inherit')};
   border: none;
   border-radius: var(--border-radius-sm);
   font-weight: 500;
@@ -55,3 +58,57 @@ const PaginationButton = styled.button<{ active: boolean }>`
     color: var(--color-brand-50);
   }
 `;
+
+function Pagination({ count }: { count: number }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = searchParams.get(SearchParamsEnum.page)
+    ? Number(searchParams.get(SearchParamsEnum.page))
+    : 1;
+  const pageCount = Math.ceil(count / BOOKING_PAGE_SIZE);
+  const isFirstPage = currentPage <= 1;
+  const isEndPage = currentPage >= pageCount;
+
+  const prevPage = () => {
+    const cur = isFirstPage ? currentPage : currentPage - 1;
+
+    searchParams.set(SearchParamsEnum.page, cur.toString());
+    setSearchParams(searchParams);
+  };
+  const nextPage = () => {
+    const next = isEndPage ? currentPage : currentPage + 1;
+
+    searchParams.set(SearchParamsEnum.page, next.toString());
+    setSearchParams(searchParams);
+  };
+
+  if (count <= BOOKING_PAGE_SIZE) return <></>;
+  return (
+    <StyledPagination>
+      <P>
+        Showing <span>{(currentPage - 1) * BOOKING_PAGE_SIZE + 1}</span> to{' '}
+        <span>{isEndPage ? count : currentPage * BOOKING_PAGE_SIZE}</span> of{' '}
+        <span>{count}</span> results
+      </P>
+      <Buttons>
+        <PaginationButton
+          $active={false}
+          onClick={prevPage}
+          disabled={isFirstPage}
+        >
+          <HiChevronLeft />
+          <span>Previous</span>
+        </PaginationButton>
+        <PaginationButton
+          $active={false}
+          onClick={nextPage}
+          disabled={isEndPage}
+        >
+          <span>Next</span>
+          <HiChevronRight />
+        </PaginationButton>
+      </Buttons>
+    </StyledPagination>
+  );
+}
+
+export default Pagination;

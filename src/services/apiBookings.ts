@@ -1,4 +1,4 @@
-import { SearchParamsEnum } from '@/types';
+import { BOOKING_PAGE_SIZE, SearchParamsEnum } from '@/types';
 import { getToday } from '../utils/helpers';
 import supabase from './supabase';
 import camelcaseKeys from 'camelcase-keys';
@@ -6,6 +6,7 @@ import camelcaseKeys from 'camelcase-keys';
 export async function getBookings({
   filter,
   sortBy,
+  page,
 }: {
   filter: {
     field: SearchParamsEnum;
@@ -13,10 +14,11 @@ export async function getBookings({
     method?: 'eq' | 'gte';
   } | null;
   sortBy: { field: string; direction: string };
+  page: number;
 }) {
   let query = supabase
     .from('bookings')
-    .select('*, cabins(name), guests(full_name,email)');
+    .select('*, cabins(name), guests(full_name,email)', { count: 'exact' });
 
   // Filter
   if (filter) {
@@ -30,14 +32,21 @@ export async function getBookings({
     });
   }
 
-  const { data, error } = await query;
+  // Page
+  if (page) {
+    const from = (page - 1) * BOOKING_PAGE_SIZE;
+    const to = from + BOOKING_PAGE_SIZE - 1;
+    query = query.range(from, to);
+  }
+
+  const { data, error, count } = await query;
 
   if (error) {
     console.error(error);
     throw new Error('Booking not found');
   }
 
-  return camelcaseKeys(data);
+  return { data: camelcaseKeys(data), count };
 }
 
 // Returns all BOOKINGS that are were created after the given date. Useful to get bookings created in the last 30 days, for example.
