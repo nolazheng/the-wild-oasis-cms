@@ -53,9 +53,23 @@ export type BookingType = {
   numGuests: number;
   totalPrice: number;
   status: BookingStatusType;
-  guests: { fullName: string; email: string };
+  guests: {
+    fullName: string;
+    email: string;
+    country: string;
+    countryFlag: string;
+    nationalID: string;
+  };
   cabins: { name: string };
 };
+
+export interface BookingDetailType extends BookingType {
+  cabinPrice: number;
+  extrasPrice: number;
+  hasBreakfast: boolean;
+  observations: string;
+  isPaid: boolean;
+}
 
 export const statusToTagName: Record<BookingStatusType, string> = {
   unconfirmed: 'blue',
