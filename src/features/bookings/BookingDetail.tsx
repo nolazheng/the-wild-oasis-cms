@@ -12,9 +12,10 @@ import Modal from '@/ui/Modal';
 import ConfirmDelete from '@/ui/ConfirmDelete';
 
 import { useGetBookingById } from '@/features/bookings/hooks/useGetBookingById';
-// import { useDeleteBooking } from './useDeleteBooking';
+import { useDeleteBooking } from '@/features/bookings/hooks/useDeleteBooking';
 import { useMoveBack } from '@/hooks/useMoveBack';
-// import { useCheckout } from '@/features/check-in-out/useCheckout';
+import { useCheckOut } from '@/features/check-in-out/hooks/useCheckOut';
+
 import ButtonText from '@/ui/ButtonText';
 import Empty from '@/ui/Empty';
 import { statusToTagName } from '@/types';
@@ -27,12 +28,8 @@ const HeadingGroup = styled.div`
 
 function BookingDetail() {
   const { booking, isLoading } = useGetBookingById();
-  // const { mutate: deleteBooking, isLoading: isDeleting } = useDeleteBooking();
-  // const { mutate: checkout, isLoading: isCheckingOut } = useCheckout();
-  const deleteBooking = (p: any, o: any) => {};
-  const isDeleting = false;
-  const checkout = (p: any) => {};
-  const isCheckingOut = false;
+  const { deleteBooking, isDeleting } = useDeleteBooking();
+  const { checkOut, isCheckingOut } = useCheckOut();
 
   const moveBack = useMoveBack();
   const navigate = useNavigate();
@@ -62,7 +59,7 @@ function BookingDetail() {
         )}
 
         {status === 'checked-in' && (
-          <Button onClick={() => checkout(bookingId)} disabled={isCheckingOut}>
+          <Button onClick={() => checkOut(bookingId)} disabled={isCheckingOut}>
             Check out
           </Button>
         )}
@@ -74,8 +71,9 @@ function BookingDetail() {
           <Modal.Window name="delete">
             <ConfirmDelete
               resource="booking"
-              // These options will be passed wherever the function gets called, and they determine what happens next
-              onConfirm={(options) => deleteBooking(bookingId, options)}
+              onConfirm={() =>
+                deleteBooking(bookingId, { onSettled: () => navigate(-1) })
+              }
               disabled={isDeleting}
             />
           </Modal.Window>

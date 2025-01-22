@@ -9,7 +9,7 @@ export async function getSettings() {
     console.error(error);
     throw new Error('Settings could not be loaded');
   }
-  return camelcaseKeys(data);
+  return camelcaseKeys(data, { deep: true });
 }
 
 export async function updateSetting(newSetting: { [x: string]: string }) {
@@ -24,5 +24,5 @@ export async function updateSetting(newSetting: { [x: string]: string }) {
     console.error(error);
     throw new Error('Settings could not be updated');
   }
-  return camelcaseKeys(data);
+  return camelcaseKeys(data, { deep: true });
 }

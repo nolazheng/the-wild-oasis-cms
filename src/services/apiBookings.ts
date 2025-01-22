@@ -7,6 +7,7 @@ import {
 import { getToday } from '../utils/helpers';
 import supabase from './supabase';
 import camelcaseKeys from 'camelcase-keys';
+import snakecaseKeys from 'snakecase-keys';
 
 export async function getBookings({
   filter,
@@ -51,7 +52,7 @@ export async function getBookings({
     throw new Error('Booking not found');
   }
 
-  return { data: camelcaseKeys(data), count: count ?? 0 };
+  return { data: camelcaseKeys(data, { deep: true }), count: count ?? 0 };
 }
 
 export async function getBooking(id: string): Promise<BookingDetailType> {
@@ -66,7 +67,7 @@ export async function getBooking(id: string): Promise<BookingDetailType> {
     throw new Error('Booking not found');
   }
 
-  return camelcaseKeys(data);
+  return camelcaseKeys(data, { deep: true });
 }
 
 // Returns all BOOKINGS that are were created after the given date. Useful to get bookings created in the last 30 days, for example.
@@ -123,23 +124,25 @@ export async function getStaysTodayActivity() {
   return data;
 }
 
-// export async function updateBooking(id: string, obj) {
-//   const { data, error } = await supabase
-//     .from('bookings')
-//     .update(obj)
-//     .eq('id', id)
-//     .select()
-//     .single();
+export async function updateBooking(
+  id: string,
+  obj: Partial<BookingDetailType>
+) {
+  const { data, error } = await supabase
+    .from('bookings')
+    .update(snakecaseKeys(obj))
+    .eq('id', id)
+    .select()
+    .single();
 
-//   if (error) {
-//     console.error(error);
-//     throw new Error('Booking could not be updated');
-//   }
-//   return data;
-// }
+  if (error) {
+    console.error(error);
+    throw new Error('Booking could not be updated');
+  }
+  return camelcaseKeys(data, { deep: true });
+}
 
 export async function deleteBooking(id: string) {
-  // REMEMBER RLS POLICIES
   const { data, error } = await supabase.from('bookings').delete().eq('id', id);
 
   if (error) {
