@@ -13,7 +13,7 @@ import BookingDataBox from '@/features/bookings/BookingDataBox';
 
 import { useGetBookingById } from '@/features/bookings/hooks/useGetBookingById';
 import { useMoveBack } from '@/hooks/useMoveBack';
-// import { useCheckin } from './useCheckin';
+import { useCheckIn } from './hooks/useCheckin';
 
 import styled from 'styled-components';
 // import { box } from '@/styles/styles';
@@ -29,13 +29,10 @@ function CheckinBooking() {
   const [addBreakfast, setAddBreakfast] = useState(false);
 
   const { booking, isLoading } = useGetBookingById();
-  // const { mutate: checkin, isLoading: isCheckingIn } = useCheckin();
-  const checkin = (p: any) => {};
-  const isCheckingIn = false;
+  const { checkIn, isCheckingIn } = useCheckIn();
   const moveBack = useMoveBack();
   const { isLoading: isLoadingSettings, settings } = useGetSettings();
 
-  // Can't use as initial state, because booking will still be loading
   useEffect(() => setConfirmPaid(booking?.isPaid ?? false), [booking]);
 
   if (isLoading || isLoadingSettings) return <Spinner />;
@@ -57,7 +54,7 @@ function CheckinBooking() {
     if (!confirmPaid) return;
 
     if (addBreakfast)
-      checkin({
+      checkIn({
         bookingId,
         breakfast: {
           hasBreakfast: true,
@@ -65,10 +62,12 @@ function CheckinBooking() {
           totalPrice: totalPrice + optionalBreakfastPrice,
         },
       });
-    else checkin({ bookingId, breakfast: {} });
+    else
+      checkIn({
+        bookingId,
+      });
   }
 
-  // We return a fragment so that these elements fit into the page's layout
   return (
     <>
       <Row type="horizontal">
@@ -78,7 +77,6 @@ function CheckinBooking() {
 
       <BookingDataBox booking={booking} />
 
-      {/* LATER */}
       {!hasBreakfast && (
         <Box>
           <Checkbox

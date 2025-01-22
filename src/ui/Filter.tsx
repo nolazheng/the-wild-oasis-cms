@@ -46,6 +46,9 @@ const Filter = <T extends string>({ filterField, options }: Props<T>) => {
 
   const handleClick = (type: string) => {
     searchParams.set(filterField, type);
+    if (searchParams.get('page')) {
+      searchParams.set('page', '1');
+    }
     setSearchParams(searchParams);
   };
   return (

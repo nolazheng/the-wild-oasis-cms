@@ -11,7 +11,7 @@ export const getCabins = async (): Promise<CabinType[]> => {
   if (error) {
     throw new Error(error.message);
   }
-  return camelcaseKeys(data);
+  return camelcaseKeys(data, { deep: true });
 };
 
 export const createEditCabin = async (
@@ -70,7 +70,7 @@ export const createEditCabin = async (
     }
   }
 
-  return camelcaseKeys(currentData);
+  return camelcaseKeys(currentData, { deep: true });
 };
 
 export const deleteCabin = async (cabin: CabinType): Promise<void> => {
