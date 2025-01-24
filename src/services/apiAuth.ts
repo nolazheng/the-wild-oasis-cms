@@ -1,5 +1,6 @@
-import camelcaseKeys from 'camelcase-keys';
 import supabase from './supabase';
+
+// !do not use camelcaseKeys data here, because it is typed by supabase
 
 export const login = async ({
   email,
@@ -17,7 +18,7 @@ export const login = async ({
     throw new Error(error.message);
   }
 
-  return camelcaseKeys(data, { deep: true });
+  return data;
 };
 
 export const getCurrentUser = async () => {
@@ -29,7 +30,7 @@ export const getCurrentUser = async () => {
     throw new Error(error.message);
   }
 
-  return camelcaseKeys(data, { deep: true }).user;
+  return data.user;
 };
 
 export const logout = async () => {
@@ -58,5 +59,5 @@ export const signup = async ({
     throw new Error(error.message);
   }
 
-  return camelcaseKeys(data, { deep: true });
+  return data;
 };
