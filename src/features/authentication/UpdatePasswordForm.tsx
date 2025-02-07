@@ -70,7 +70,7 @@ function UpdatePasswordForm() {
       <FormRow>
         <>
           <Button onClick={handleReset} type="reset" $variation="secondary">
-            Cancel
+            Reset
           </Button>
           <Button disabled={isUpdating}>Update password</Button>
         </>
