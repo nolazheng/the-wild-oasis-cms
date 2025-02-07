@@ -26,6 +26,7 @@ export enum SearchParamsEnum {
   sortBy = 'sort-by',
   status = 'status',
   page = 'page',
+  last = 'last',
 }
 
 export type SettingsType = {
