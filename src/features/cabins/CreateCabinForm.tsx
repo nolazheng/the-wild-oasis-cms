@@ -52,7 +52,7 @@ function CreateCabinForm({
 
   // Invoked when validation fails
   const onError = function (errors: any) {
-    // console.log('Failed validation!', errors);
+    throw new Error('Validation failed', errors);
   };
 
   return (
