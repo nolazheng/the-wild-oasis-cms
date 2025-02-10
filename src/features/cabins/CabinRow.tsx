@@ -43,6 +43,8 @@ function CabinRow({ cabin }: { cabin: CabinType }) {
   const { isDeleting, deleteCabin } = useDeleteCabin();
   const { isCreating, createCabin } = useCreateCabin();
 
+  const disabled = isDeleting || isCreating;
+
   const {
     id: cabinId,
     name,
@@ -86,16 +88,21 @@ function CabinRow({ cabin }: { cabin: CabinType }) {
                 <Menus.Button
                   icon={<HiSquare2Stack />}
                   onClick={handleDuplicate}
+                  disabled={disabled}
                 >
                   Duplicate
                 </Menus.Button>
 
                 <Modal.Toggle openName="cabin-edit">
-                  <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+                  <Menus.Button icon={<HiPencil />} disabled={disabled}>
+                    Edit
+                  </Menus.Button>
                 </Modal.Toggle>
 
                 <Modal.Toggle openName="cabin-delete">
-                  <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+                  <Menus.Button icon={<HiTrash />} disabled={disabled}>
+                    Delete
+                  </Menus.Button>
                 </Modal.Toggle>
               </Menus.List>
 
@@ -106,7 +113,7 @@ function CabinRow({ cabin }: { cabin: CabinType }) {
               <Modal.Window name="cabin-delete">
                 <ConfirmDelete
                   resource="cabins"
-                  disabled={isDeleting}
+                  disabled={disabled}
                   onConfirm={() => deleteCabin(cabin)}
                 />
               </Modal.Window>

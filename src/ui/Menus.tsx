@@ -101,6 +101,7 @@ const Toggle = ({ id }: { id: string }) => {
   const { openId, close, open, setPosition } = useContext(MenusContext);
 
   function handleClick(e: any) {
+    e.stopPropagation();
     const rect = e.target.closest('button').getBoundingClientRect();
     setPosition({
       x: window.innerWidth - rect.width - rect.x,
@@ -124,7 +125,7 @@ const Toggle = ({ id }: { id: string }) => {
 const List = ({ id, children }: { id: string; children: React.ReactNode }) => {
   const { openId, position, close } = useContext(MenusContext);
   const ref = useRef(null);
-  useCloseOutside(ref, close);
+  useCloseOutside(ref, close, false);
 
   if (openId !== id) return null;
 

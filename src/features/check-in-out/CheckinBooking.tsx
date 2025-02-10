@@ -13,14 +13,15 @@ import BookingDataBox from '@/features/bookings/BookingDataBox';
 
 import { useGetBookingById } from '@/features/bookings/hooks/useGetBookingById';
 import { useMoveBack } from '@/hooks/useMoveBack';
-import { useCheckIn } from './hooks/useCheckin';
 
 import styled from 'styled-components';
-// import { box } from '@/styles/styles';
+import { box } from '@/styles/styles';
 import { useGetSettings } from '@/features/settings/hooks/useGetSettings';
 import Empty from '@/ui/Empty';
+import { useCheckIn } from './hooks/useCheckIn';
 
 const Box = styled.div`
+  ${box}
   padding: 2.4rem 4rem;
 `;
 
